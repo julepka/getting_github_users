@@ -27,6 +27,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let lastUser = self.users.last {
             lastId = lastUser.id
         }
+        
+        // loading followers
         if let parent = parentUser {
             self.pages = self.pages + 1
             DataLoader().getFollowers(url: parent.followers, page: pages) { [weak self] result in
@@ -36,6 +38,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self?.loadAvatars(from: usersCount - result.count, to: usersCount)
                 }
             }
+            
+        // if parent user is not set, loading all users
         } else {
             DataLoader().getUsers(lastId: lastId) { [weak self] result in
                 self?.users.append(contentsOf: result)
